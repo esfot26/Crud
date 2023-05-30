@@ -14,6 +14,18 @@ function obtenerNombreCiudad($id, $conn)
 
     return $nombre;
 }
+// Assuming you have already established a database connection using mysqli_connect()
+
+$query = "SELECT * FROM personas";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+  $numRows = mysqli_num_rows($result);
+  //echo "Number of rows: " . $numRows;
+} else {
+  echo "Query execution failed.";
+}
+
 // Obtener el término de búsqueda desde la URL
 $termino_busqueda = isset($_GET['busqueda']) ? $_GET['busqueda'] : '';
 
@@ -39,6 +51,8 @@ $total_paginas = ceil($total_registros / $registros_por_pagina); // Total de pá
 $pagina_actual = isset($_GET['page']) ? $_GET['page'] : 1; // Página actual
 $inicio = ($pagina_actual - 1) * $registros_por_pagina; // Índice de inicio
 $datos_paginados = array_slice($datos, $inicio, $registros_por_pagina); // Registros de la página actual
+
+
 ?>
 
 <!DOCTYPE html>
@@ -53,6 +67,12 @@ $datos_paginados = array_slice($datos, $inicio, $registros_por_pagina); // Regis
 <body style="background-color:powderblue;">
     <div class="container">
         <h1 style="color:black;">Personas</h1>
+        <form action="index.php" method="GET">
+            <div class="form-group">
+              <input type="text" name="busqueda" class="form-control" placeholder="Buscar por nombre, apellido, CIN o ciudad" value="<?php echo htmlentities($termino_busqueda); ?>"><br>
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+        </form>
         <?php
         if ($_GET && isset($_GET['mod']) && $_GET['mod'] == 'delpersona' && isset($_GET['id'])) {
             $id = $_GET['id'];
@@ -63,11 +83,7 @@ $datos_paginados = array_slice($datos, $inicio, $registros_por_pagina); // Regis
         ?>
         <form action="index.php" method="GET">
             <div class="form-group">
-                <label for="busqueda">Buscar:</label>
-                <input type="text" class="form-control" id="busqueda" name="busqueda" placeholder="Ingrese un término de búsqueda">
-            </div>
-            <br><button type="submit" class="btn btn-primary">Buscar</button>
-            <a href="nuevo.php" class="btn btn-primary">Nuevo</a><br>
+            <br> <a href="nuevo.php" class="btn btn-primary">Nuevo</a><br>
             </form>
         <br>
         <table class="table table-dark">
@@ -117,7 +133,6 @@ $datos_paginados = array_slice($datos, $inicio, $registros_por_pagina); // Regis
                 <?php endforeach; ?>
             </tbody>
         </table>
-
         <nav aria-label="Navegación paginada">
             <ul class="pagination">
                 <?php if ($pagina_actual > 1): ?>
