@@ -27,14 +27,13 @@ if ($result) {
 }
 
 // Obtener el término de búsqueda desde la URL
-$termino_busqueda = isset($_GET['busqueda']) ? $_GET['busqueda'] : '';
-
-// Filtrar los registros según el término de búsqueda
 if (!empty($termino_busqueda)) {
     $datos_filtrados = [];
     foreach ($datos as $d) {
         if (stripos($d['nombre'], $termino_busqueda) !== false ||
             stripos($d['apellido'], $termino_busqueda) !== false ||
+            stripos($d['id'], $termino_busqueda) !== false ||
+            stripos($d['direccion'], $termino_busqueda) !== false ||
             $d['cin'] == $termino_busqueda ||
             stripos(obtenerNombreCiudad($d['ciudad_id'], $conn), $termino_busqueda) !== false
         ) {
