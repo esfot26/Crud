@@ -136,10 +136,15 @@ function validarCampo($campo) {
                     ?>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <button type="submit" class="btn btn-primary" onclick="return confirmarEnvio()">Enviar</button>
             <a href="index.php" class="btn btn-secondary">Volver</a>
         </form>
     </div>
+        <script>
+        function confirmarEnvio() {
+            return confirm("¿Estás seguro de que deseas guardar este registro?");
+        }
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
